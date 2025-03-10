@@ -1,7 +1,7 @@
 // app/api/auth/route.ts
 import { NextResponse } from 'next/server';
 import { getAuth } from 'firebase-admin/auth';
-import { initializeApp } from 'firebase-admin/app';
+import { initializeApp, applicationDefault } from 'firebase-admin/app'; // Import applicationDefault
 
 // Initialize Firebase Admin SDK
 const app = initializeApp({

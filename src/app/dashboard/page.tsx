@@ -3,7 +3,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { auth } from '@/lib/firebase';
+import { auth } from '../lib/firebase';
 
 export default function Dashboard() {
   const router = useRouter();
