@@ -1,6 +1,6 @@
 {
   "name": "routes-next-fire-i",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "version-and-tag": "npm version patch && git push --tags",
