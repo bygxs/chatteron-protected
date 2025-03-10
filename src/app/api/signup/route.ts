@@ -1,12 +1,6 @@
 // app/api/signup/route.ts
 import { NextResponse } from 'next/server';
-import { getAuth } from 'firebase-admin/auth';
-import { initializeApp, applicationDefault } from 'firebase-admin/app';
-
-// Initialize Firebase Admin SDK
-const app = initializeApp({
-  credential: applicationDefault(), // Use environment variables for production
-});
+import { adminAuth } from '../../lib/firebase-admin'; // Use the pre-initialized Firebase Admin instance
 
 export async function POST(req: Request) {
   try {
@@ -22,7 +16,7 @@ export async function POST(req: Request) {
 
     // Check if user already exists
     try {
-      const existingUser = await getAuth().getUserByEmail(email);
+      const existingUser = await adminAuth.getUserByEmail(email);
       return NextResponse.json(
         { error: 'User with this email already exists' },
         { status: 409 }
@@ -32,7 +26,7 @@ export async function POST(req: Request) {
     }
 
     // Create user with Firebase Auth
-    const userRecord = await getAuth().createUser({
+    const userRecord = await adminAuth.createUser({
       email,
       password,
     });

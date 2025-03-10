@@ -1,12 +1,6 @@
 // app/api/auth/route.ts
 import { NextResponse } from 'next/server';
-import { getAuth } from 'firebase-admin/auth';
-import { initializeApp, applicationDefault } from 'firebase-admin/app'; // Import applicationDefault
-
-// Initialize Firebase Admin SDK
-const app = initializeApp({
-  credential: applicationDefault(), // Use environment variables for production
-});
+import { adminAuth } from '../../lib/firebase-admin'; // Use the pre-initialized Firebase Admin instance
 
 export async function POST(req: Request) {
   try {
@@ -17,9 +11,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized: No token provided' }, { status: 401 });
     }
 
-    const decodedToken = await getAuth().verifyIdToken(token);
+    // Verify the token using Firebase Admin SDK
+    const decodedToken = await adminAuth.verifyIdToken(token);
+
+    // Return success response
     return NextResponse.json({ message: 'Access granted', user: decodedToken }, { status: 200 });
   } catch (error) {
+    console.error('Token verification error:', error);
     return NextResponse.json({ error: 'Unauthorized: Invalid token' }, { status: 401 });
   }
 }
