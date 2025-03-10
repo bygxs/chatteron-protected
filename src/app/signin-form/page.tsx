@@ -27,7 +27,7 @@ export default function SignInForm() {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-      <Navbar />
+     {/*  <Navbar /> */}
       <div className="flex items-center justify-center pt-20">
         <form onSubmit={handleSignIn} className="w-full max-w-md bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">Sign In</h2>

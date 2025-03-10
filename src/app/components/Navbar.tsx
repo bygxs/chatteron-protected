@@ -1,5 +1,5 @@
 // src/components/Navbar.tsx
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function Navbar() {
   return (
@@ -27,9 +27,9 @@ export default function Navbar() {
                 Sign In
               </span>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/signup-form">
               <span className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer">
-                Dashboard
+                Sign Up
               </span>
             </Link>
           </div>
