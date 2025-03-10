@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "version-and-tag": "npm version patch && git push --tags",
+    "version-push-and-tag": "npm version patch && git push && git push --tags",
+    "version-and-tag-minor": "npm version minor &&  git push --tags",
+    "version-push-and-tag-minor": "npm version minor && git push && git push --tags",
+    "version-and-tag-major": "npm version major && git push --tags",
+    "version-push-and-tag-major": "npm version major && git push &&  git push --tags",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
