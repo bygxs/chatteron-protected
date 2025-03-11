@@ -1,5 +1,4 @@
 // src/app/profile/page.tsx
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -10,6 +9,14 @@ export default function Profile() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [name, setName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [dob, setDob] = useState<string>("");
+  const [interests, setInterests] = useState<string>("");
+  const [socialLinks, setSocialLinks] = useState<{ [key: string]: string }>({
+    linkedin: "",
+    twitter: "",
+    facebook: "",
+  });
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const router = useRouter();
 
@@ -31,10 +38,14 @@ export default function Profile() {
     setIsSubmitting(true);
 
     // Here you would typically send the data to your backend or database
-    // For example:
-    // await saveUserProfile({ name, bio });
-
-    console.log("User Profile Submitted:", { name, bio });
+    console.log("User Profile Submitted:", {
+      name,
+      bio,
+      location,
+      dob,
+      interests,
+      socialLinks,
+    });
 
     // Reset form or redirect after submission
     setIsSubmitting(false);
@@ -42,18 +53,15 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-amber-100 dark:bg-amber-900">
-      <div className="flex flex-col items-center justify-center pt-20">
-        <h1 className=" m-7 text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+    <div className="min-h-screen bg-amber-100 dark:bg-amber-900 flex items-center justify-center">
+      <div className="w-full max-w-lg p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+        <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4 text-center">
           Welcome to Your Profile, {userEmail || "User"}!
         </h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-6 mt-6">
+        <p className="text-gray-600 dark:text-gray-400 mb-6 text-center">
           Please complete your profile to get started.
         </p>
-        <form
-          onSubmit={handleSubmit}
-          className="w-full max-w-md bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
-        >
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               className="block text-gray-700 dark:text-gray-300 mb-2"
@@ -85,6 +93,86 @@ export default function Profile() {
               className="w-full p-2 border border-gray-300 rounded-md dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
               rows={4}
             />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 dark:text-gray-300 mb-2"
+              htmlFor="location"
+            >
+              Location
+            </label>
+            <input
+              type="text"
+              id="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 dark:text-gray-300 mb-2"
+              htmlFor="dob"
+            >
+              Date of Birth
+            </label>
+            <input
+              type="date"
+              id="dob"
+              value={dob}
+              onChange={(e) => setDob(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 dark:text-gray-300 mb-2"
+              htmlFor="interests"
+            >
+              Interests
+            </label>
+            <input
+              type="text"
+              id="interests"
+              value={interests}
+              onChange={(e) => setInterests(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+              placeholder="Comma-separated interests"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 dark:text-gray-300 mb-2">
+              Social Media Links
+            </label>
+            <div className="flex flex-col space-y-2">
+              <input
+                type="url"
+                placeholder="LinkedIn URL"
+                value={socialLinks.linkedin}
+                onChange={(e) =>
+                  setSocialLinks({ ...socialLinks, linkedin: e.target.value })
+                }
+                className="w-full p-2 border border-gray-300 rounded-md dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+              />
+              <input
+                type="url"
+                placeholder="Twitter URL"
+                value={socialLinks.twitter}
+                onChange={(e) =>
+                  setSocialLinks({ ...socialLinks, twitter: e.target.value })
+                }
+                className="w-full p-2 border border-gray-300 rounded-md dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+              />
+              <input
+                type="url"
+                placeholder="Facebook URL"
+                value={socialLinks.facebook}
+                onChange={(e) =>
+                  setSocialLinks({ ...socialLinks, facebook: e.target.value })
+                }
+                className="w-full p-2 border border-gray-300 rounded-md dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+              />
+            </div>
           </div>
           <button
             type="submit"
