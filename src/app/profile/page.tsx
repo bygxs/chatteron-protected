@@ -27,7 +27,7 @@ export default function Profile() {
     // Redirect if user is not authenticated
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (!user) {
-        router.push("/signin-form");
+        router.push("/"); // Redirect to home page if user signs out
       } else {
         setUserEmail(user.email);
       }

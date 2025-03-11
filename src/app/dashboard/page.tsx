@@ -16,7 +16,7 @@ export default function Dashboard() {
     const fetchProfile = async () => {
       const user = auth.currentUser;
       if (!user) {
-        router.push("/signin-form");
+        router.push("/");  // Redirect to home page if user signs out
         return;
       }
 

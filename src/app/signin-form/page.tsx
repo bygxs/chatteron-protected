@@ -35,6 +35,9 @@ export default function SignInForm() {
 
       // Handle specific Firebase errors
       switch (error.code) {
+        case "auth/invalid-email":
+        setError("Invalid email address.");
+        break;
         case 'auth/user-not-found':
           setError('User not found. Please check your email.');
           break;
