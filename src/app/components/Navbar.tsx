@@ -1,4 +1,3 @@
-// src/components/Navbar.tsx
 "use client";
 
 import Link from "next/link";
@@ -42,21 +41,28 @@ export default function Navbar() {
           </div>
 
           {/* Navigation Links */}
-          <div className="flex space-x-4">
+          <div className="flex items-center space-x-4">
             <Link href="/">
-              <span className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer">
+              <span className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer px-3 py-2 rounded-md text-sm font-medium transition duration-300">
                 Home
               </span>
             </Link>
+            {isSignedIn && (
+              <Link href="/dashboard">
+                <span className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer px-3 py-2 rounded-md text-sm font-medium transition duration-300">
+                  Dashboard
+                </span>
+              </Link>
+            )}
             {!isSignedIn && (
               <>
                 <Link href="/signin-form">
-                  <span className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer">
+                  <span className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer px-3 py-2 rounded-md text-sm font-medium transition duration-300">
                     Sign In
                   </span>
                 </Link>
                 <Link href="/signup-form">
-                  <span className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer">
+                  <span className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer px-3 py-2 rounded-md text-sm font-medium transition duration-300">
                     Sign Up
                   </span>
                 </Link>
@@ -65,7 +71,7 @@ export default function Navbar() {
             {isSignedIn && (
               <button
                 onClick={handleSignOut}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 dark:bg-red-600 dark:hover:bg-red-700"
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 dark:bg-red-600 dark:hover:bg-red-700 text-sm font-medium"
               >
                 Sign Out
               </button>
