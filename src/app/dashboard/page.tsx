@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { auth } from "../lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
+import Link from "next/link";
 
 export default function Dashboard() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -37,6 +38,12 @@ export default function Dashboard() {
         <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">
           Welcome to the Dashboard, {userEmail || "User"}!
         </h1>
+        <Link
+  href="/profile"
+  className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 dark:bg-blue-600 dark:hover:bg-blue-700"
+>
+  Edit Profile
+</Link>
         {profile && (
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-lg">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">
