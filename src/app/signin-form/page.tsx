@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { auth } from '../lib/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { auth } from "../lib/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function SignInForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null); // For error messages
   const [success, setSuccess] = useState<string | null>(null); // For success messages
   const router = useRouter();
@@ -19,44 +19,56 @@ export default function SignInForm() {
 
     try {
       // Sign in with Firebase Auth
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
-      console.log('Signed in:', user.uid);
+      console.log("Signed in:", user.uid);
 
       // Show success message
-      setSuccess('Sign-in successful! Redirecting...');
+      setSuccess("Sign-in successful! Redirecting...");
 
       // Redirect to dashboard after a short delay
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push("/dashboard");
       }, 2000); // 2 seconds delay
     } catch (error: any) {
-      console.error('Sign-in error:', error);
+      console.error("Sign-in error:", error);
 
       // Handle specific Firebase errors
       switch (error.code) {
         case "auth/invalid-email":
-        setError("Invalid email address.");
-        break;
-        case 'auth/user-not-found':
-          setError('User not found. Please check your email.');
+          setError("Invalid email address.");
           break;
-        case 'auth/wrong-password':
-          setError('Incorrect password. Please try again.');
+        case "auth/user-not-found":
+          setError(
+            "Email and associated user do not exist. Please sign up if you wish to create an account."
+          );
+          setError("User not found. Please check your email.");
           break;
-        case 'auth/invalid-email':
-          setError('Invalid email address.');
+        case "auth/wrong-password":
+          setError("Incorrect password. Please try again.");
+          break;
+        case "auth/invalid-email":
+          setError("Invalid email address.");
           break;
         default:
-          setError('Failed to sign in. Please try again later.');
+          setError("Failed to sign in. Please try again later.");
       }
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
-      <form onSubmit={handleSignIn} className="w-full max-w-md bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">Sign In</h2>
+      <form
+        onSubmit={handleSignIn}
+        className="w-full max-w-md bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md"
+      >
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">
+          Sign In
+        </h2>
 
         {/* Display success message */}
         {success && (
@@ -73,7 +85,12 @@ export default function SignInForm() {
         )}
 
         <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-600 dark:text-gray-400 mb-2">Email</label>
+          <label
+            htmlFor="email"
+            className="block text-gray-600 dark:text-gray-400 mb-2"
+          >
+            Email
+          </label>
           <input
             id="email"
             type="email"
@@ -85,7 +102,12 @@ export default function SignInForm() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-600 dark:text-gray-400 mb-2">Password</label>
+          <label
+            htmlFor="password"
+            className="block text-gray-600 dark:text-gray-400 mb-2"
+          >
+            Password
+          </label>
           <input
             id="password"
             type="password"
