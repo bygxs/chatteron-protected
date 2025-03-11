@@ -54,6 +54,14 @@ export default function Navbar() {
                 </span>
               </Link>
             )}
+            {isSignedIn && (
+              <Link href="/profile">
+                <span className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer px-3 py-2 rounded-md text-sm font-medium transition duration-300">
+                  profile
+                </span>
+              </Link>
+            )}
+
             {!isSignedIn && (
               <>
                 <Link href="/signin-form">

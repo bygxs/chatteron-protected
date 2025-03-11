@@ -17,6 +17,13 @@ export default function Home() {
         >
           Go to Sign-In
         </a>
+
+        <a
+          href="/signup-form"
+          className="mt-7 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 dark:bg-blue-600 dark:hover:bg-blue-700"
+        >
+          Sign Up
+        </a>
       </div>
     </div>
   );

@@ -1,13 +1,15 @@
-'use client';
+//// src/app/signup-form/page.tsx
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { auth } from '../lib/firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { auth } from "../lib/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function SignUpForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null); // For error messages
   const [success, setSuccess] = useState<string | null>(null); // For success messages
   const router = useRouter();
@@ -19,41 +21,50 @@ export default function SignUpForm() {
 
     try {
       // Create user with Firebase Auth
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
-      console.log('User created:', user.uid);
+      console.log("User created:", user.uid);
 
       // Show success message
-      setSuccess('User created successfully! Redirecting...');
+      setSuccess("User created successfully! Redirecting...");
 
-      // Redirect to dashboard after a short delay
+      // Redirect to Profile after a short delay
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push("/profile");
       }, 2000); // 2 seconds delay
     } catch (error: any) {
-      console.error('Sign-up error:', error);
+      console.error("Sign-up error:", error);
 
       // Handle specific Firebase errors
       switch (error.code) {
-        case 'auth/email-already-in-use':
-          setError('User with this email already exists.');
+        case "auth/email-already-in-use":
+          setError("User with this email already exists.");
           break;
-        case 'auth/invalid-email':
-          setError('Invalid email address.');
+        case "auth/invalid-email":
+          setError("Invalid email address.");
           break;
-        case 'auth/weak-password':
-          setError('Password is too weak.');
+        case "auth/weak-password":
+          setError("Password is too weak.");
           break;
         default:
-          setError('Failed to create user. Please try again later.');
+          setError("Failed to create user. Please try again later.");
       }
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
-      <form onSubmit={handleSignUp} className="w-full max-w-md bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">Sign Up</h2>
+    <div className="min-h-screen bg-pink-100 dark:bg-pink-900 flex items-center justify-center">
+      <form
+        onSubmit={handleSignUp}
+        className="w-full max-w-md bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md"
+      >
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">
+          Sign Up
+        </h2>
 
         {/* Display success message */}
         {success && (
@@ -70,7 +81,12 @@ export default function SignUpForm() {
         )}
 
         <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-600 dark:text-gray-400 mb-2">Email</label>
+          <label
+            htmlFor="email"
+            className="block text-gray-600 dark:text-gray-400 mb-2"
+          >
+            Email
+          </label>
           <input
             id="email"
             type="email"
@@ -82,7 +98,12 @@ export default function SignUpForm() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-600 dark:text-gray-400 mb-2">Password</label>
+          <label
+            htmlFor="password"
+            className="block text-gray-600 dark:text-gray-400 mb-2"
+          >
+            Password
+          </label>
           <input
             id="password"
             type="password"
