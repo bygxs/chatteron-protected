@@ -1,39 +1,81 @@
-// src/app/dashboard/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "../lib/firebase";
-import Navbar from "../components/Navbar";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../lib/firebase";
 
 export default function Dashboard() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [profile, setProfile] = useState<any>(null);
   const router = useRouter();
 
   useEffect(() => {
-    // Redirect if user is not authenticated
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const fetchProfile = async () => {
+      const user = auth.currentUser;
       if (!user) {
         router.push("/signin-form");
-      } else {
-        // Set the user's email
-        setUserEmail(user.email);
+        return;
       }
-    });
 
-    return () => unsubscribe();
+      setUserEmail(user.email);
+
+      // Fetch profile data from Firestore
+      const profileDoc = await getDoc(doc(db, "users", user.uid));
+      if (profileDoc.exists()) {
+        setProfile(profileDoc.data());
+      }
+    };
+
+    fetchProfile();
   }, [router]);
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-    
       <div className="flex flex-col items-center justify-center pt-20">
         <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">
-          Welcome, {userEmail || "User"}, to the Dashboard
+          Welcome to the Dashboard, {userEmail || "User"}!
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
-          This is a protected dashboard page.
-        </p>
+        {profile && (
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-lg">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+              Your Profile
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              <strong>Name:</strong> {profile.name}
+            </p>
+            <p className="text-gray-600 dark:text-gray-400">
+              <strong>Bio:</strong> {profile.bio}
+            </p>
+            <p className="text-gray-600 dark:text-gray-400">
+              <strong>Location:</strong> {profile.location}
+            </p>
+            <p className="text-gray-600 dark:text-gray-400">
+              <strong>Date of Birth:</strong> {profile.dob}
+            </p>
+            <p className="text-gray-600 dark:text-gray-400">
+              <strong>Interests:</strong> {profile.interests.join(", ")}
+            </p>
+            <div className="mt-4">
+              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+                Social Links
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                <strong>LinkedIn:</strong>{" "}
+                {profile.socialLinks.linkedin || "Not provided"}
+              </p>
+              <p className="text-gray-600 dark:text-gray-400">
+                <strong>Twitter:</strong>{" "}
+                {profile.socialLinks.twitter || "Not provided"}
+              </p>
+              <p className="text-gray-600 dark:text-gray-400">
+                <strong>Facebook:</strong>{" "}
+                {profile.socialLinks.facebook || "Not provided"}
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,9 +1,12 @@
-// src/app/profile/page.tsx
+//File Path: src/app/profile/page.tsx
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "../lib/firebase";
+import { doc, setDoc } from "firebase/firestore"; // Import Firestore functions
+import { db } from "../lib/firebase"; // Import Firestore instance
 
 export default function Profile() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -37,19 +40,35 @@ export default function Profile() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Here you would typically send the data to your backend or database
-    console.log("User Profile Submitted:", {
-      name,
-      bio,
-      location,
-      dob,
-      interests,
-      socialLinks,
-    });
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("User not authenticated");
+      }
 
-    // Reset form or redirect after submission
-    setIsSubmitting(false);
-    // Optionally redirect or show a success message
+      // Prepare profile data
+      const profileData = {
+        name,
+        bio,
+        location,
+        dob,
+        interests: interests.split(",").map((interest) => interest.trim()), // Convert to array
+        socialLinks,
+        email: user.email,
+        createdAt: new Date().toISOString(),
+      };
+
+      // Save profile data to Firestore
+      await setDoc(doc(db, "users", user.uid), profileData);
+
+      console.log("Profile saved successfully!");
+      // Optionally redirect or show a success message
+      router.push("/dashboard"); // Redirect to dashboard after saving
+    } catch (error) {
+      console.error("Error saving profile:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
